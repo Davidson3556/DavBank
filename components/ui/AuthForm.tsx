@@ -21,8 +21,10 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ITEMS } from '@/constants';
+import CustomInput from './CustomInput';
+import {authFormSchema} from '@/lib/utils'
 
-const formSchema = z.object({
+const Schema = z.object({
     email: z.string().email(),
   })
    
@@ -33,15 +35,16 @@ const AuthForm = ({type}: {type: string}) => {
     const [user, setUser] = useState(null);
     
         // 1. Define your form.
-        const form = useForm<z.infer<typeof formSchema>>({
-          resolver: zodResolver(formSchema),
+        const form = useForm<z.infer<typeof authFormSchema>>({
+          resolver: zodResolver(authFormSchema),
           defaultValues: {
             email: "",
+            password: "",
           },
         })
        
         // 2. Define a submit handler.
-        function onSubmit(values: z.infer<typeof formSchema>) {
+        function onSubmit(values: z.infer<typeof authFormSchema>) {
           // Do something with the form values.
           // ✅ This will be type-safe and validated.
           console.log(values)
@@ -151,6 +154,14 @@ const AuthForm = ({type}: {type: string}) => {
                            
                         
                     )}
+                    />
+                    <CustomInput
+                      control={form.control} name="email" label="Email" 
+                      placeholder="Enter your Email"
+                    />
+                    <CustomInput
+                      control={form.control} name="password" label="Password"
+                       placeholder="Enter your Password"
                     />
                     <Button type="submit">Submit</Button>
                     </form>
