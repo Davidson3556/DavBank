@@ -33,7 +33,7 @@ const Schema = z.object({
 
 const AuthForm = ({type}: {type: string}) => {
     const [user, setUser] = useState(null);
-    
+    const [isLoading, setIsLoading] = useState(false)
         // 1. Define your form.
         const form = useForm<z.infer<typeof authFormSchema>>({
           resolver: zodResolver(authFormSchema),
@@ -47,7 +47,9 @@ const AuthForm = ({type}: {type: string}) => {
         function onSubmit(values: z.infer<typeof authFormSchema>) {
           // Do something with the form values.
           // ✅ This will be type-safe and validated.
+          setIsLoading(true)
           console.log(values)
+          setIsLoading(false);
         }
 
 
@@ -92,69 +94,10 @@ const AuthForm = ({type}: {type: string}) => {
                 <>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <div className="form-item">
-                                    <FormLabel className="form-label">
-                                        Email
-                                    </FormLabel>
-                                    <div className="flex w-full flex-col">
-                                    <FormControl>
-                                          <Input
-                                           placeholder="Enter your Email"
-                                           className="input-class"
-                                           {...field}
-                                            />
-                                    </FormControl>
-                                    <FormMessage
-                                    className="form-message mt-2"/>
-                                    </div>
-
-                                </div>
-
-
                         
-                          
-                            
-                           
-                        
-                    )}
-                    />
 
                     {/* password */}
-                    <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <div className="form-item">
-                                    <FormLabel className="form-label">
-                                        Password
-                                    </FormLabel>
-                                    <div className="flex w-full flex-col">
-                                    <FormControl>
-                                          <Input
-                                           placeholder="Enter your Password"
-                                           className="input-class"
-                                           type="password"
-                                           {...field}
-                                            />
-                                    </FormControl>
-                                    <FormMessage
-                                    className="form-message mt-2"/>
-                                    </div>
-
-                                </div>
-
-
-                        
-                          
-                            
-                           
-                        
-                    )}
-                    />
+                   
                     <CustomInput
                       control={form.control} name="email" label="Email" 
                       placeholder="Enter your Email"
@@ -162,8 +105,9 @@ const AuthForm = ({type}: {type: string}) => {
                     <CustomInput
                       control={form.control} name="password" label="Password"
                        placeholder="Enter your Password"
+                       
                     />
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" className='form-btn'>Submit</Button>
                     </form>
                 </Form>
                 </>
