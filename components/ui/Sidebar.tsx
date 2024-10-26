@@ -33,7 +33,7 @@ const Sidebar = ({user} : SiderbarProps) => {
         pathname === item.route || pathname.startsWith(`${item.route}/`)
 
         return (<Link href={item.route} key={item.label}
-        className={cn ('sidebar-link',{'bg-bank-gradient':isActive})}
+        className={cn ('sidebar-link',{'bg-bankGradient':isActive})}
         >
           <div className="relative size-6">
           <Image
