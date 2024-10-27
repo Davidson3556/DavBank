@@ -15,7 +15,7 @@ const Sidebar = ({user} : SiderbarProps) => {
       <Link href="/"
       className="mb-12
       cursor-pointer
-      items-center gap-2 flex">
+      items-center gap-2 flex ">
         <Image 
         src="/icons/logo.svg"
          width={34}

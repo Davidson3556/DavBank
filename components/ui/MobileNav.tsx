@@ -29,7 +29,7 @@ const MobileNav = ({user}:MobileNavProps) => {
                     alt="menu"
                     className="cursor-pointer"/>
             </SheetTrigger>
-            <SheetContent side="left" className="border-none bg-white">
+            <SheetContent side="left" className="border-none bg-sideBarColor">
             <Link href="/"
       className="
       cursor-pointer
@@ -55,7 +55,7 @@ const MobileNav = ({user}:MobileNavProps) => {
                 return (
                 <SheetClose asChild key={item.route}>
                         <Link href={item.route} key={item.label}
-                        className={cn ('mobilenav-sheet_close w-full',{'bg-bank-gradient':isActive})}
+                        className={cn ('mobilenav-sheet_close w-full',{'bg-bankGradient':isActive})}
                         >
                         <Image
                         src={item.imgURL}

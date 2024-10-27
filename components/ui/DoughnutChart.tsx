@@ -17,7 +17,7 @@ const DoughnutChart = ({accounts}: DoughnutChartProps) =>
                 '#F9EAFF','#D7A2EB']
             }
         ],
-        labels: ['Bank 1', 'Bank2', 'Bank3']
+        labels: ['Bank 1', 'Bank2', 'Bank3', 'Bank4', 'Bank5']
     }
     return (
       <Doughnut 
