@@ -35,13 +35,14 @@ const Sidebar = ({user} : SiderbarProps) => {
         return (<Link href={item.route} key={item.label}
         className={cn ('sidebar-link',{'bg-bankGradient':isActive})}
         >
-          <div className="relative size-4 ">
+          <div className="relative size-6 ">
           <Image
           src={item.imgURL}
           alt={item.label}
           fill className={cn({
-            'brightness-[3] invert-0':
-            isActive
+            'brightness-[8] invert-0':
+            isActive,
+            'brightness-[9]': !isActive
           })}/>
 
           </div>
