@@ -23,7 +23,8 @@ const config = {
         fill: {
           1: "rgba(255, 255, 255, 0.10)",
         },
-        bankGradient: "#EE9F39",
+        bankGradient: "#5B0080",
+        sideBarColor:"#330546",
         indigo: {
           500: "#6172F3",
           700: "#3538CD",
@@ -74,6 +75,7 @@ const config = {
         "gradient-mesh": "url('/icons/mesh-gradient.png')",
         "bank-green-gradient":
           "linear-gradient(90deg, #01797A 0%, #489399 100%)",
+          "sidebar-hover":"[#5B0080]",
       },
       boxShadow: {
         form: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",

@@ -16,12 +16,12 @@ const Home = () => {
             type="greeting"
             title="Welcome"
             user={loggedIn?.firstName || 'Guest'}
-            subtext="Effortlessly access and manage your account and transactions"
+            subtext="Easily access and manage your account and transactions."
             />
             <TotalBalanceBox
             accounts={[]}
             totalBanks={1}
-            totalCurrentBalance={3299950.35}
+            totalCurrentBalance={1000089.35}
             />
 
       </header>
@@ -30,7 +30,7 @@ const Home = () => {
     <RightSidebar
     user={loggedIn}
     transactions={[]}
-    banks={[{currentBalance:300478.45},
+    banks={[{currentBalance:3004798.45},
        {currentBalance: 900421.56}]}
     />
     </section>
