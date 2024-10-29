@@ -21,7 +21,7 @@ export const sidebarLinks = [
   },
   {
     imgURL: "/icons/connect.svg",
-    route: "/payment-transfer",
+    route: "/connect-bank",
     label: "Connect Bank",
   },
 ];
