@@ -35,9 +35,11 @@ const Schema = z.object({
 const AuthForm = ({type}: {type: string}) => {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
+    
+    const formSchema = authFormSchema (type); 
         // 1. Define your form.
-        const form = useForm<z.infer<typeof authFormSchema>>({
-          resolver: zodResolver(authFormSchema),
+        const form = useForm<z.infer<typeof formSchema>>({
+          resolver: zodResolver(formSchema),
           defaultValues: {
             email: "",
             password: "",
@@ -45,7 +47,7 @@ const AuthForm = ({type}: {type: string}) => {
         })
        
         // 2. Define a submit handler.
-        function onSubmit(values: z.infer<typeof authFormSchema>) {
+        function onSubmit(values: z.infer<typeof formSchema>) {
           // Do something with the form values.
           // ✅ This will be type-safe and validated.
           setIsLoading(true)
@@ -95,7 +97,35 @@ const AuthForm = ({type}: {type: string}) => {
                 <>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        
+                        {type === 'sign-up' && (
+                          <>
+                           <CustomInput
+                           control={form.control} name="firstName" label="" 
+                           placeholder="First name"
+                    />
+                    <CustomInput
+                           control={form.control} name="lastName" label="" 
+                           placeholder="Last name"
+                    />
+                    <CustomInput
+                           control={form.control} name="email" label="" 
+                           placeholder="Email"
+                    />
+                    <CustomInput
+                           control={form.control} name="phoneNumber" label=""
+                           placeholder="Phonenumber"
+                    />
+                    <CustomInput
+                           control={form.control} name="password" label="" 
+                           placeholder="Password"
+                    />
+                    <CustomInput
+                           control={form.control} name="confirmPassword" label="" 
+                           placeholder="Confirm Password"
+                    />
+                          </>
+                        )
+                        }
 
                     {/* password */}
                    
@@ -108,7 +138,8 @@ const AuthForm = ({type}: {type: string}) => {
                        placeholder="Enter your Password"
                        
                     />
-                    <Button type="submit" 
+                    <div className="flex flex-col gap-4">
+                       <Button type="submit" 
                     disabled={isLoading}
                     className='form-btn'>
                       {isLoading?(
@@ -121,6 +152,8 @@ const AuthForm = ({type}: {type: string}) => {
                       ) :type === 'sign-in'
                         ?'Sign in': 'Sign up'}
                       </Button>
+                    </div>
+                   
                     </form>
                 </Form>
                 <footer className="flex justify-center gap-1">
