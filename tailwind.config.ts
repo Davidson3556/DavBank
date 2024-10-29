@@ -24,6 +24,7 @@ const config = {
           1: "rgba(255, 255, 255, 0.10)",
         },
         bankGradient: "#5B0080",
+        btncolor:"#8906BF",
         sideBarColor:"#330546",
         indigo: {
           500: "#6172F3",
