@@ -5,12 +5,7 @@ import React, {useState} from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
@@ -24,6 +19,7 @@ import { ITEMS } from '@/constants';
 import CustomInput from './CustomInput';
 import {authFormSchema} from '@/lib/utils'
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const Schema = z.object({
     email: z.string().email(),
@@ -33,6 +29,7 @@ const Schema = z.object({
 
 
 const AuthForm = ({type}: {type: string}) => {
+    const router = useRouter();
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false)
     
@@ -47,12 +44,31 @@ const AuthForm = ({type}: {type: string}) => {
         })
        
         // 2. Define a submit handler.
-        function onSubmit(values: z.infer<typeof formSchema>) {
+        const onSubmit= async (data: z.infer<typeof formSchema>) => {
           // Do something with the form values.
           // ✅ This will be type-safe and validated.
-          setIsLoading(true)
-          console.log(values)
-          setIsLoading(false);
+          setIsLoading(true);
+
+          try{
+            //  sign up with appwrite & CREATE PLAID TOKEN
+            if (type ==='sign-up'){
+            //  const newUser = await SignUp(data);
+            //  setUser(newUser);
+            }
+            if (type==='sign-in'){
+              // const response =await signIn({
+              //   email:data.email,
+              //   password: data.password,
+              // }
+              // if(response) router.push(/)
+              // )
+            }
+          } catch (error) {
+
+          }finally {
+            setIsLoading(false);
+          }
+         
         }
 
 
@@ -99,14 +115,17 @@ const AuthForm = ({type}: {type: string}) => {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         {type === 'sign-up' && (
                           <>
-                           <CustomInput
-                           control={form.control} name="firstName" label="" 
-                           placeholder="First name"
-                    />
-                    <CustomInput
-                           control={form.control} name="lastName" label="" 
-                           placeholder="Last name"
-                    />
+                          <div className="flex gap-4">
+                            <CustomInput
+                              control={form.control} name="firstName" label="" 
+                              placeholder="First name"
+                            />
+                              <CustomInput
+                                control={form.control} name="lastName" label="" 
+                                placeholder="Last name"
+                              />
+                          </div>
+                           
                     <CustomInput
                            control={form.control} name="email" label="" 
                            placeholder="Email"
@@ -128,7 +147,8 @@ const AuthForm = ({type}: {type: string}) => {
                         }
 
                     {/* password */}
-                   
+                    {type === 'sign-in' && (
+                      <>
                     <CustomInput
                       control={form.control} name="email" label="Email" 
                       placeholder="Enter your Email"
@@ -137,7 +157,10 @@ const AuthForm = ({type}: {type: string}) => {
                       control={form.control} name="password" label="Password"
                        placeholder="Enter your Password"
                        
+                       
                     />
+                    </>
+                    )}
                     <div className="flex flex-col gap-4">
                        <Button type="submit" 
                     disabled={isLoading}
