@@ -25,6 +25,7 @@ const config = {
         },
         bankGradient: "#5B0080",
         btncolor:"#8906BF",
+        btninput:"rgba(246, 224, 255, 1)",
         sideBarColor:"#330546",
         indigo: {
           500: "#6172F3",
