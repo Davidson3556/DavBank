@@ -25,6 +25,9 @@ const config = {
         },
         bankGradient: "#5B0080",
         btncolor:"#8906BF",
+        btninput:{
+          60:"#F6E0FF99"
+        },
         sideBarColor:"#330546",
         indigo: {
           500: "#6172F3",
@@ -55,7 +58,7 @@ const config = {
           900: "#194185",
         },
         sky: {
-          1: "#F3F9FF",
+          1: "#FFFFFF",
         },
         black: {
           1: "#00214F",

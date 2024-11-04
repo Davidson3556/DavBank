@@ -5,12 +5,7 @@ import React, {useState} from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
@@ -24,6 +19,8 @@ import { ITEMS } from '@/constants';
 import CustomInput from './CustomInput';
 import {authFormSchema} from '@/lib/utils'
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 
 const Schema = z.object({
     email: z.string().email(),
@@ -33,8 +30,9 @@ const Schema = z.object({
 
 
 const AuthForm = ({type}: {type: string}) => {
+    const router = useRouter();
     const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     
     const formSchema = authFormSchema (type); 
         // 1. Define your form.
@@ -47,41 +45,52 @@ const AuthForm = ({type}: {type: string}) => {
         })
        
         // 2. Define a submit handler.
-        function onSubmit(values: z.infer<typeof formSchema>) {
+        const onSubmit= async (data: z.infer<typeof formSchema>) => {
           // Do something with the form values.
           // ✅ This will be type-safe and validated.
-          setIsLoading(true)
-          console.log(values)
-          setIsLoading(false);
+          setIsLoading(true);
+
+          try{
+            //  sign up with appwrite & CREATE PLAID TOKEN
+            if (type ==='sign-up'){
+             const newUser = await signUp(data);
+             setUser(newUser);
+            }
+            if (type==='sign-in'){
+              const response =await signIn({
+                email:data.email,
+                password: data.password,
+              })
+              if(response) router.push('/')
+              
+            }
+          } catch (error) {
+            console.log(error);
+          }finally {
+            setIsLoading(false);
+          }
+         
         }
 
 
   return (
     <section className="auth-form">
-        <header className="flex flex-col gap-5 md:gap-8">
-        <Link href="/"
-            className="cursor-pointer items-center gap-1 flex">
-            <Image src="/icons/logo.svg"
-                width={34}
-                height={34}
-                alt="Dav logo"/>
-                 <h1 className="text-26 font-ibm-plex-serif font-bold text-[#ee9f39]">
-                  DAV</h1>
-        </Link>
+        <header className="flex flex-col gap-5 md:gap-8 ">
+        
         <div className="flex flex-col gap-1 md:gap-3">
-            <h1 className='text-24 lg:text-36 font-semibold
-            text-gray-900'>
+            <h1 className='text-24 lg:text-24 font-semibold
+            text-[#FFFFFF]'>
               
                 {user
                 ?'Link Account'
             :type==='sign-in'
-            ?'Sign In'
-            :'Sign Up'
+            ?'Log In'
+            :''
             }
-              <p className='text-16 font-normal text-gray-600'>
+              <p className='text-16 font-normal text-[#F6E0FF] mt-5'>
                 {user
                 ? 'Link your account to get started'
-                : 'Please enter your details'
+                : 'Welcome back! please enter your details'
                 }
                     
               </p>
@@ -99,14 +108,17 @@ const AuthForm = ({type}: {type: string}) => {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         {type === 'sign-up' && (
                           <>
-                           <CustomInput
-                           control={form.control} name="firstName" label="" 
-                           placeholder="First name"
-                    />
-                    <CustomInput
-                           control={form.control} name="lastName" label="" 
-                           placeholder="Last name"
-                    />
+                          <div className="flex gap-4">
+                            <CustomInput
+                              control={form.control} name="firstName" label="" 
+                              placeholder="First name"
+                            />
+                              <CustomInput
+                                control={form.control} name="lastName" label="" 
+                                placeholder="Last name"
+                              />
+                          </div>
+                           
                     <CustomInput
                            control={form.control} name="email" label="" 
                            placeholder="Email"
@@ -128,16 +140,20 @@ const AuthForm = ({type}: {type: string}) => {
                         }
 
                     {/* password */}
-                   
+                    {type === 'sign-in' && (
+                      <>
                     <CustomInput
-                      control={form.control} name="email" label="Email" 
+                      control={form.control} name="email" label="" 
                       placeholder="Enter your Email"
                     />
                     <CustomInput
-                      control={form.control} name="password" label="Password"
+                      control={form.control} name="password" label=""
                        placeholder="Enter your Password"
                        
+                       
                     />
+                    </>
+                    )}
                     <div className="flex flex-col gap-4">
                        <Button type="submit" 
                     disabled={isLoading}
@@ -150,14 +166,14 @@ const AuthForm = ({type}: {type: string}) => {
                         Loading...
                         </>
                       ) :type === 'sign-in'
-                        ?'Sign in': 'Sign up'}
+                        ?'Log In': 'Create Account'}
                       </Button>
                     </div>
                    
                     </form>
                 </Form>
                 <footer className="flex justify-center gap-1">
-                  <p className="text-14 font-normal text-gray-600">
+                  <p className="text-14 font-normal text-[#F6E0FF]">
                     {type=== 'sign-in'
                     ?"Don't have an account?"
                     :"Already have an account"}
