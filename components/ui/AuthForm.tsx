@@ -75,30 +75,22 @@ const AuthForm = ({type}: {type: string}) => {
 
   return (
     <section className="auth-form">
-        <header className="flex flex-col gap-5 md:gap-8">
-        <Link href="/"
-            className="cursor-pointer items-center gap-1 flex">
-            <Image src="/icons/logo.svg"
-                width={34}
-                height={34}
-                alt="Dav logo"/>
-                 <h1 className="text-26 font-ibm-plex-serif font-bold text-[#ee9f39]">
-                  DAV</h1>
-        </Link>
+        <header className="flex flex-col gap-5 md:gap-8 ">
+        
         <div className="flex flex-col gap-1 md:gap-3">
-            <h1 className='text-24 lg:text-36 font-semibold
-            text-gray-900'>
+            <h1 className='text-24 lg:text-24 font-semibold
+            text-[#FFFFFF]'>
               
                 {user
                 ?'Link Account'
             :type==='sign-in'
-            ?'Sign In'
-            :'Sign Up'
+            ?'Log In'
+            :''
             }
-              <p className='text-16 font-normal text-gray-600'>
+              <p className='text-16 font-normal text-[#F6E0FF] mt-5'>
                 {user
                 ? 'Link your account to get started'
-                : 'Please enter your details'
+                : 'Welcome back! please enter your details'
                 }
                     
               </p>
@@ -151,11 +143,11 @@ const AuthForm = ({type}: {type: string}) => {
                     {type === 'sign-in' && (
                       <>
                     <CustomInput
-                      control={form.control} name="email" label="Email" 
+                      control={form.control} name="email" label="" 
                       placeholder="Enter your Email"
                     />
                     <CustomInput
-                      control={form.control} name="password" label="Password"
+                      control={form.control} name="password" label=""
                        placeholder="Enter your Password"
                        
                        
@@ -174,14 +166,14 @@ const AuthForm = ({type}: {type: string}) => {
                         Loading...
                         </>
                       ) :type === 'sign-in'
-                        ?'Sign in': 'Sign up'}
+                        ?'Log In': 'Create Account'}
                       </Button>
                     </div>
                    
                     </form>
                 </Form>
                 <footer className="flex justify-center gap-1">
-                  <p className="text-14 font-normal text-gray-600">
+                  <p className="text-14 font-normal text-[#F6E0FF]">
                     {type=== 'sign-in'
                     ?"Don't have an account?"
                     :"Already have an account"}
