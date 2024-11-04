@@ -45,7 +45,7 @@
 
 @layer utilities {
   .input-class {
-    @apply text-16 placeholder:text-16 rounded-lg border border-[#FFFFFF] text-gray-900 bg-btninput placeholder-[white];
+    @apply text-16 placeholder:text-16 rounded-lg border border-[#FFFFFF] text-gray-900 bg-btninput-60 placeholder-[white];
   }
 
   .sheet-content button {
