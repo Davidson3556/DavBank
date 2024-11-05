@@ -85,13 +85,15 @@ const AuthForm = ({type}: {type: string}) => {
                 ?'Link Account'
             :type==='sign-in'
             ?'Log In'
-            :''
+            :'Create an account'
             }
               <p className='text-16 font-normal text-[#F6E0FF] mt-5'>
-                {user
-                ? 'Link your account to get started'
-                : 'Welcome back! please enter your details'
-                }
+
+              {user
+              ?'Link Account'
+              :type === 'sign-in' 
+              ? 'Please enter your details to log in.' 
+              : 'Create an account to get started.'}
                     
               </p>
             </h1>
