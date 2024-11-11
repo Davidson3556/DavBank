@@ -21,7 +21,7 @@ const PlaidLink = ({user, variant}: PlaidLinkProps) => {
 
     }, [user])
 
-    const config: PlaidLinkOptions ={
+    const config: PlaidLinkOptions ={TEA
         token,
         onSuccess
     }
