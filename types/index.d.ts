@@ -25,6 +25,8 @@ declare type User = {
   $id: string;
   email: string;
   userId: string;
+  monoCustomerUrl: string;
+  monoCustomerId: string;
   dwollaCustomerUrl: string;
   dwollaCustomerId: string;
   firstName: string;
