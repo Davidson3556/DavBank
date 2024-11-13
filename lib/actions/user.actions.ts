@@ -1,11 +1,13 @@
 'use server';
 
+import axios from 'axios';
 import { ID } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
-import { parseStringify } from "../utils";
-import { CountryCode, Products } from "plaid";
+import { encryptId, parseStringify } from "../utils";
+import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestProcessorEnum, Products } from "plaid";
 import { plaidClient } from "../plaid";
+import { revalidatePath } from 'next/cache';
 
 
 export const signIn = async ({email, password}: signInProps) => {
@@ -99,6 +101,62 @@ export const exchangePublicToken = async ({
 
                 const accessToken = response.data.access_token;
                 const itemId = response.data.item_id;
+                // Get the account from Plain using the access token
+                const accountsResponse = await plaidClient.accountsGet({
+                    access_token: accessToken,
+                });
+                const accountData = accountsResponse.data.accounts[0];
+
+                // creating a processor token for mono using the access token and account ID 
+
+                const request: ProcessorTokenCreateRequest = {
+                  access_token: accessToken,
+                  account_id: accountData.account_id,
+                  processor: "mono" as ProcessorTokenCreateRequestProcessorEnum,  
+                };
+
+                const processorTokenResponse = await plaidClient.processorTokenCreate(request);
+                const processorToken = processorTokenResponse.data.processor_token; 
+
+                // Create a funding source for the user URL for the account using mono customer ID,
+                // processor token and bank name
+                const fundingSourceResponse = await axios.post(
+                    "https://api.withmono.com/v1/accounts/funding-sources",
+                    {
+                        monoCustomer_id: user.monoCustomerId,  // Replace with the actual customer ID
+                        processorToken,
+                        bankName: accountData.name,  // Replace with the actual bank name
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${process.env.MONO_SECRET}`, 
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+
+                // if the funding source url is not created throw an error
+                if (!fundingSourceResponse) throw Error;
+
+                    // create a bank account using the user Id, item ID, account Id, access token
+                    // funding source URL, and sharable Id
+                    await createBankAccount({
+                       userId: user.$id,
+                       bankId: itemId,
+                       accountId: accountData.account_id,
+                       accessToken,
+                       fundingSourceResponse,
+                       sharableId: encryptId(accountData.account_id), 
+                    });
+
+                    // revalidate the path to reflect the changes
+                    revalidatePath("/");
+
+                    // return a success message
+
+                    return parseStringify({ 
+                        publicTokenExchange:"complete"
+                    });
 
         } catch (error) {
             console.error("An error occurred while creating exchanging token:", error);
