@@ -16,6 +16,7 @@ export const linkMonoAccount = async () => {
       onLoad: () => setScriptLoaded(true),
       onSuccess: ({ code }) => {
         console.log(`Mono account linked successfully: ${code}`);
+        
         // Here you could call a function to exchange the Mono `code` for access data
       },
     });
