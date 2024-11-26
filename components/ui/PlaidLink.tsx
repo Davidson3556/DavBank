@@ -1,64 +1,64 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Button } from './button'
-import { StyledString } from 'next/dist/build/swc';
-import { useRouter } from 'next/navigation';
-import { PlaidLinkOptions, PlaidLinkOnSuccess, usePlaidLink } from 'react-plaid-link';
-import { createLinkToken } from '@/lib/actions/user.actions';
+import React, { useEffect, useState } from "react";
+import { Button } from "./button";
+import { useRouter } from "next/navigation";
+import { initializePayment } from "@/lib/flutterwave";
 
-const PlaidLink = ({user, variant}: PlaidLinkProps) => {
-    const router = useRouter();
-    const [token, setToken] = useState('');
-    useEffect(() => {
-        const getLinkToken = async () => {
-            const data =  await createLinkToken(user);
-            setToken(data?.linkToken)
-        }
-        getLinkToken();
-    }, [user]
-    );
-
-    const onSuccess = useCallback<PlaidLinkOnSuccess>(async (public_token: 
-        string) => {
-            // await exchangePublicToken({
-            //     publicToken: public_token,
-            // user,
-            // })
-
-            router.push('/');
-
-    }, [user])
-
-    const config: PlaidLinkOptions ={
-        token,
-        onSuccess
-    }
-    const {open , ready} = usePlaidLink(config);
-        
-    
-
-  return (
-   <>
-   {variant ==='primary' ?(
-        <Button
-        onClick={() => open()}
-        disabled={!ready}
-        className="plaidlink-primary">
-            Connect bank
-        </Button>
-    ): variant === 'ghost' ?(
-        <Button>
-            Connect Bank
-        </Button>
-    
-    ):
-    (
-        <Button>
-            Connect Bank
-        </Button>
-    )
-   }
-   </>
-  )
+interface FlutterwaveLinkProps {
+  user: {
+    email: string;
+    phonenumber?: string;
+    name: string;
+  };
+  variant: "primary" | "ghost" | "default";
+  amount: number; // Amount to charge
 }
 
-export default PlaidLink
+const FlutterwaveLink: React.FC<FlutterwaveLinkProps> = ({ user, variant, amount }) => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handlePayment = async () => {
+    setLoading(true);
+    try {
+      // Initialize the payment with Flutterwave
+      const paymentData = await initializePayment(amount, "NGN", user);
+
+      if (paymentData?.data?.link) {
+        // Redirect the user to the payment link
+        window.location.href = paymentData.data.link;
+      } else {
+        console.error("Failed to generate payment link:", paymentData);
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Payment initialization failed:", error);
+      alert("Payment initialization failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      {variant === "primary" ? (
+        <Button
+          onClick={handlePayment}
+          disabled={loading}
+          className="flutterwave-link-primary"
+        >
+          {loading ? "Connecting..." : "Connect Bank"}
+        </Button>
+      ) : variant === "ghost" ? (
+        <Button onClick={handlePayment} disabled={loading} className="flutterwave-link-ghost">
+          {loading ? "Connecting..." : "Connect Bank"}
+        </Button>
+      ) : (
+        <Button onClick={handlePayment} disabled={loading} className="flutterwave-link-default">
+          {loading ? "Connecting..." : "Connect Bank"}
+        </Button>
+      )}
+    </>
+  );
+};
+
+export default FlutterwaveLink;

@@ -1,164 +1,216 @@
 'use server';
 
-import axios from 'axios';
-import { ID } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { cookies } from "next/headers";
-import { encryptId, parseStringify } from "../utils";
-import { CountryCode, ProcessorTokenCreateRequest, ProcessorTokenCreateRequestProcessorEnum, Products } from "plaid";
-import { plaidClient } from "../plaid";
-import { revalidatePath } from 'next/cache';
+import { revalidatePath } from "next/cache";
+import { addFundingSource } from "./mono.action";
 
+const {
+  APPWRITE_DATABASE_ID: DATABASE_ID,
+  APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID,
+  APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
+} = process.env;
 
-export const signIn = async ({email, password}: signInProps) => {
-    try{
-        const { account } = await createAdminClient();
+export const getUserInfo = async ({ userId }: GetUserInfoProps) => {
+  try {
+    const { database } = await createAdminClient();
 
-        const  response = await account.
-        createEmailPasswordSession(email, password)
-        return parseStringify(response);
-        // Mutation Database Make fetch
-    } catch (error) {
-        console.error('Error',error);
-    }
+    const user = await database.listDocuments(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      [Query.equal("userId", [userId])]
+    );
+
+    return user.documents[0];
+  } catch (error) {
+    console.error("Error fetching user info:", error);
+  }
+};
+
+export const signIn = async ({ email, password }: SignInProps) => {
+  try {
+    const { account } = await createAdminClient();
+    const session = await account.createEmailPasswordSession(email, password);
+
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    const user = await getUserInfo({ userId: session.userId });
+
+    return user;
+  } catch (error) {
+    console.error("Error signing in:", error);
+  }
+};
+
+export const signUp = async ({ password, ...userData }: SignUpParams) => {
+  try {
+    const { email, firstName, lastName } = userData;
+    const { account, database } = await createAdminClient();
+
+    const newUserAccount = await account.create(
+      ID.unique(),
+      email,
+      password,
+      `${firstName} ${lastName}`
+    );
+
+    if (!newUserAccount) throw new Error("Error creating user account");
+
+    const newUser = await database.createDocument(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      ID.unique(),
+      {
+        ...userData,
+        userId: newUserAccount.$id,
+      }
+    );
+
+    const session = await account.createEmailPasswordSession(email, password);
+
+    cookies().set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: true,
+    });
+
+    return newUser;
+  } catch (error) {
+    console.error("Error signing up:", error);
+  }
+};
+
+export async function getLoggedInUser() {
+  try {
+    const { account } = await createSessionClient();
+    const session = await account.get();
+    const user = await getUserInfo({ userId: session.$id });
+
+    return user;
+  } catch (error) {
+    console.error("Error fetching logged-in user:", error);
+    return null;
+  }
 }
 
-export const signUp = async (userData: SignUpParams) => {
-const {email, password, firstName, lastName} =
-userData;
+export const logoutAccount = async () => {
+  try {
+    const { account } = await createSessionClient();
 
-    try{
-        const { account } = await createAdminClient();
+    cookies().delete("appwrite-session");
 
-        const newUserAccount=await account.create(ID.unique(), 
-        email,
-        password, 
-        `${firstName} ${lastName}`);
-        const session = await account.createEmailPasswordSession(email, password);
-      
-        cookies().set("appwrite-session", session.secret, {
-          path: "/",
-          httpOnly: true,
-          sameSite: "strict",
-          secure: true,
-        });
+    await account.deleteSession("current");
+  } catch (error) {
+    console.error("Error logging out:", error);
+  }
+};
 
-        return parseStringify(newUserAccount);
-    } catch (error) {
-        console.error('Error',error);
-    }
-}
+export const createBankAccount = async ({
+  userId,
+  bankId,
+  accountId,
+  fundingSourceUrl,
+  sharableId,
+  
+}: CreateBankAccountProps) => {
+  try {
+    const { database } = await createAdminClient();
 
-export async function getLoggedInUser () {
-    try {
-        const { account }= await createSessionClient();
-        const user = await account.get();
-        return parseStringify(user);
-    }   catch (error) {
-        return null; 
-    } 
+    const bankAccount = await database.createDocument(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      ID.unique(),
+      {
+        userId,
+        bankId,
+        accountId,
+        fundingSourceUrl,
+        sharableId,
+      }
+    );
 
-}
+    return bankAccount;
+  } catch (error) {
+    console.error("Error creating bank account:", error);
+  }
+};
 
-export const logoutAccount = async ()=> {
-        try{
-            const{ account } =await createSessionClient();
-
-            cookies().delete('appwrite-session')
-            await account.deleteSession('current');
-        }catch (error){
-            return null;
-        }
-}
-
-export const createLinkToken = async (user: User) => {
-    try {
-        const tokenParams= {
-            user: {
-                client_user_id: user.$id
-            },
-            client_name: user.name,
-            products:['auth'] as Products[],
-            language: 'en',
-            country_codes: ['NG'] as unknown as CountryCode[],
-        }
-        const response = await plaidClient.linkTokenCreate(tokenParams);
-        return parseStringify({linkToken: response.data.link_token});
-    }catch (error) {
-        console.log(error);
-    }
-
-} 
-
-export const exchangePublicToken = async ({
+export const addMonoBankAccount = async ({
     publicToken,
-    user,
-}: exchangePublicTokenProps) => {
-        try{
-            // Exchange Public token for access token and item Id
-            const response = await plaidClient.itemPublicTokenExchange({
-                public_token: publicToken, });
+    userId,
+    bankName,
+  }: {
+    publicToken: string;
+    userId: string;
+    bankName: string;
+  }) => {
+    try {
+      // Fetch user info to get monoCustomerId
+      const user = await getUserInfo({ userId });
+      if (!user || !user.monoCustomerId) {
+        throw new Error("User monoCustomerId not found");
+      }
+  
+      // Use Mono API to retrieve account data and create funding source
+      const fundingSourceUrl = await addFundingSource({
+        monoCustomerId: user.monoCustomerId, // Pass the required monoCustomerId
+        processorToken: publicToken,        // Rename publicToken to processorToken
+        bankName,
+      });
+  
+      if (!fundingSourceUrl) throw new Error("Error creating funding source");
+  
+      // Simulate or retrieve an accessToken
+      const accessToken = `accessToken-${Date.now()}`; // Replace with actual accessToken from Mono or another source
+  
+      const sharableId = `mono-${Date.now()}`;
+  
+      // Save the bank account in Appwrite
+      await createBankAccount({
+        userId,
+        bankId: fundingSourceUrl, // Use fundingSourceUrl as a unique identifier for simplicity
+        accountId: fundingSourceUrl,
+        accessToken,              // Include the required accessToken
+        fundingSourceUrl,
+        sharableId,
+      });
+  
+      revalidatePath("/");
+  
+      return {
+        success: true,
+        message: "Bank account added successfully",
+      };
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error("Error adding Mono bank account:", errorMessage);
+        return {
+          success: false,
+          message: "Failed to add bank account",
+          error: errorMessage,
+        };
+      }
+    };
+  
+export const getBanks = async ({ userId }: GetBanksProps) => {
+  try {
+    const { database } = await createAdminClient();
 
-                const accessToken = response.data.access_token;
-                const itemId = response.data.item_id;
-                // Get the account from Plain using the access token
-                const accountsResponse = await plaidClient.accountsGet({
-                    access_token: accessToken,
-                });
-                const accountData = accountsResponse.data.accounts[0];
+    const banks = await database.listDocuments(
+      DATABASE_ID!,
+      BANK_COLLECTION_ID!,
+      [Query.equal("userId", [userId])]
+    );
 
-                // creating a processor token for mono using the access token and account ID 
-
-                const request: ProcessorTokenCreateRequest = {
-                  access_token: accessToken,
-                  account_id: accountData.account_id,
-                  processor: "mono" as ProcessorTokenCreateRequestProcessorEnum,  
-                };
-
-                const processorTokenResponse = await plaidClient.processorTokenCreate(request);
-                const processorToken = processorTokenResponse.data.processor_token; 
-
-                // Create a funding source for the user URL for the account using mono customer ID,
-                // processor token and bank name
-                const fundingSourceResponse = await axios.post(
-                    "https://api.withmono.com/v1/accounts/funding-sources",
-                    {
-                        monoCustomer_id: user.monoCustomerId,  // Replace with the actual customer ID
-                        processorToken,
-                        bankName: accountData.name,  // Replace with the actual bank name
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${process.env.MONO_SECRET}`, 
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-
-                // if the funding source url is not created throw an error
-                if (!fundingSourceResponse) throw Error;
-
-                    // create a bank account using the user Id, item ID, account Id, access token
-                    // funding source URL, and sharable Id
-                    await createBankAccount({
-                       userId: user.$id,
-                       bankId: itemId,
-                       accountId: accountData.account_id,
-                       accessToken,
-                       fundingSourceResponse,
-                       sharableId: encryptId(accountData.account_id), 
-                    });
-
-                    // revalidate the path to reflect the changes
-                    revalidatePath("/");
-
-                    // return a success message
-
-                    return parseStringify({ 
-                        publicTokenExchange:"complete"
-                    });
-
-        } catch (error) {
-            console.error("An error occurred while creating exchanging token:", error);
-        }
-    }
+    return banks.documents;
+  } catch (error) {
+    console.error("Error fetching banks:", error);
+  }
+};

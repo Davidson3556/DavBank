@@ -1,73 +1,129 @@
-// mono.actions.ts
 "use server";
-import { useState, useCallback } from "react";
-import { MonoConnect } from "@mono.co/connect.js";
-import { plaidClient } from "../plaid"; // Assuming Plaid setup exists
 
-const monoKey = process.env.NEXT_PUBLIC_MONO_PUBLIC_KEY; // Make sure this is defined in your environment variables
+import axios from "axios";
 
-export const linkMonoAccount = async () => {
-  const [scriptLoaded, setScriptLoaded] = useState(false);
+const MONO_BASE_URL = "https://api.withmono.com/v1";
 
-  const openMonoWidget = useCallback(async () => {
-    const monoInstance = new MonoConnect({
-      key: monoKey || "",
-      onClose: () => console.log("Widget closed"),
-      onLoad: () => setScriptLoaded(true),
-      onSuccess: ({ code }) => {
-        console.log(`Mono account linked successfully: ${code}`);
-        
-        // Here you could call a function to exchange the Mono `code` for access data
+/**
+ * Create a funding source using Mono's API.
+ * @param options {AddFundingSourceParams} - Details required to create the funding source.
+ * @returns {Promise<string | null>} - Funding source URL if successful.
+ */
+export const createFundingSource = async ({
+  monoCustomerId,
+  bankName,
+}: AddFundingSourceParams): Promise<string | null> => {
+  try {
+    const response = await axios.post(
+      `${MONO_BASE_URL}/accounts/funding-sources`,
+      {
+        monoCustomer_id: monoCustomerId,
+        bankName,
       },
-    });
-    monoInstance.setup();
-    monoInstance.open();
-  }, []);
-  
-  return openMonoWidget;
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.MONO_SECRET}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    // Return the funding source URL
+    return response.data?.fundingSourceUrl || null;
+  } catch (error) {
+    console.error("Creating a Funding Source Failed: ", error);
+    return null;
+  }
 };
 
-export const reauthenticateMonoAccount = async (reauthCode: string) => {
-  const [scriptLoaded, setScriptLoaded] = useState(false);
-
-  const reauthenticate = useCallback(async () => {
-    const monoInstance = new MonoConnect({
-      key: monoKey || "",
-      onClose: () => console.log("Widget closed"),
-      onLoad: () => setScriptLoaded(true),
-      onSuccess: ({ code }) => {
-        console.log(`Reauth successful: ${code}`);
-        // Use this reauth code as needed
+/**
+ * Initialize a payment using Flutterwave.
+ * @param amount {number} - Payment amount.
+ * @param currency {string} - Payment currency (e.g., NGN, USD).
+ * @param customer {object} - Customer details.
+ * @returns {Promise<any>} - Flutterwave payment initialization response.
+ */
+export const initializePayment = async (
+  amount: number,
+  currency: string,
+  customer: { email: string; phonenumber?: string; name: string }
+): Promise<any> => {
+  try {
+    const response = await axios.post(
+      "https://api.flutterwave.com/v3/payments",
+      {
+        tx_ref: `mono_tx_${Date.now()}`,
+        amount,
+        currency,
+        redirect_url: `${process.env.NEXT_PUBLIC_SITE_URL}/payment-success`,
+        customer,
+        payment_options: "card,banktransfer",
       },
-    });
-    monoInstance.reauthorise(reauthCode);
-    monoInstance.open();
-  }, [reauthCode]);
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  return reauthenticate;
+    // Return payment initialization response
+    return response.data;
+  } catch (error) {
+    console.error("Initializing payment failed: ", error);
+    throw new Error("Payment initialization failed");
+  }
 };
 
-export const payWithMono = async () => {
-  const [scriptLoaded, setScriptLoaded] = useState(false);
+/**
+ * Verify a Flutterwave transaction.
+ * @param transactionId {string} - Transaction ID to verify.
+ * @returns {Promise<any>} - Transaction verification response.
+ */
+export const verifyTransaction = async (
+  transactionId: string
+): Promise<any> => {
+  try {
+    const response = await axios.get(
+      `https://api.flutterwave.com/v3/transactions/${transactionId}/verify`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`,
+        },
+      }
+    );
 
-  const payWithMono = useCallback(async () => {
-    const monoInstance = new MonoConnect({
-      key: monoKey || "",
-      scope: "payments",
-      data: {
-        type: "one-time-debit",
-        amount: 150000,
-        description: "Payment for light bill",
-      },
-      onSuccess: ({ code }) => console.log(`Payment linked successfully: ${code}`),
-    });
-
-    monoInstance.setup();
-    monoInstance.open();
-  }, []);
-
-  return payWithMono;
+    // Return transaction verification response
+    return response.data;
+  } catch (error) {
+    console.error("Transaction verification failed: ", error);
+    throw new Error("Transaction verification failed");
+  }
 };
 
-// Add additional Mono and Plaid combined logic here
-// For example: creating funding sources, linking tokens, etc., using Plaid and Mono together
+/**
+ * Add a funding source for a customer.
+ * @param params {AddFundingSourceParams} - Details required for funding source creation.
+ * @returns {Promise<string | null>} - Funding source URL if successful.
+ */
+export const addFundingSource = async ({
+  monoCustomerId,
+  bankName,
+}: AddFundingSourceParams): Promise<string | null> => {
+  try {
+    // Create funding source using Mono
+    const fundingSourceUrl = await createFundingSource({
+      monoCustomerId,
+      bankName,
+    });
+
+    if (!fundingSourceUrl) {
+      throw new Error("Failed to create funding source");
+    }
+
+    return fundingSourceUrl;
+  } catch (error) {
+    console.error("Adding funding source failed: ", error);
+    return null;
+  }
+};
