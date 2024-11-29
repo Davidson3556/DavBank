@@ -10,12 +10,12 @@ declare type SearchParamProps = {
 
 // User Management
 declare type SignUpParams = {
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
-  phoneNumber?: string;
+  phoneNumber: string;
+  bvn: string;
 };
 
 declare type LoginUser = {
@@ -33,12 +33,7 @@ declare type User = {
   firstName?: string;
   lastName?: string;
   name: string;
-  address1: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  dateOfBirth: string;
-  ssn: string;
+  bvn: string;
 };
 
 declare type NewUserParams = {
@@ -129,12 +124,8 @@ declare type FlutterwaveCustomer = {
   lastName: string;
   email: string;
   type: string;
-  address1: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  dateOfBirth: string;
-  ssn: string;
+  phoneNumber: string;
+  bvn: string;
 };
 
 // UI Component Props
