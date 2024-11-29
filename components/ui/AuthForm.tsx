@@ -21,8 +21,8 @@ import {authFormSchema} from '@/lib/utils'
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
-import PlaidLink from './FlutterwaveLink';
-import FlutterwaveLink from './FlutterwaveLink';
+import PlaidLink from './PlaidLink';
+import FlutterwaveLink from './PlaidLink';
 
 const Schema = z.object({
     email: z.string().email(),
