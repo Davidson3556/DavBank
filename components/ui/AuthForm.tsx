@@ -22,6 +22,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { getLoggedInUser, signIn, signUp } from '@/lib/actions/user.actions';
 import PlaidLink from './PlaidLink';
+import FlutterwaveLink from './PlaidLink';
 
 const Schema = z.object({
     email: z.string().email(),
@@ -53,6 +54,15 @@ const AuthForm = ({type}: {type: string}) => {
 
           try{
             //  sign up with appwrite & CREATE PLAID TOKEN
+            const userData ={
+              firstName: data.firstName!,
+              lastName: data.lastName!,
+              phoneNumber: data.phoneNumber!,
+              email: data.email,
+              password: data.password,
+              bvn: data.bvn!,
+            }
+
             if (type ==='sign-up'){
              const newUser = await signUp(data);
              setUser(newUser);
@@ -101,12 +111,12 @@ const AuthForm = ({type}: {type: string}) => {
 
         </div>
         </header>   
-            {/* {user ?( */}
+            {user ?(
                 <div className="flex flex-col gap-4">
-                    {/* plaidlink */}
-                    <PlaidLink user={user} variant="primary"/>
+                    {/* Flutterlink */}
+                    <FlutterwaveLink user={user} variant="primary"/>
                 </div>
-            {/* ):( */}
+           ): (
                 <>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -189,7 +199,7 @@ const AuthForm = ({type}: {type: string}) => {
 
                 </footer>
                 </>
-            {/* )} */}
+            )}
     </section>
   )
 }
