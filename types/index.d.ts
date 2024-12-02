@@ -10,10 +10,14 @@ declare type SearchParamProps = {
 declare type SignUpParams = {
   firstName: string;
   lastName: string;
+  address1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  dateOfBirth: string;
   ssn: string;
   email: string;
   password: string;
-  phoneNumber: string;
 };
 
 declare type LoginUser = {
@@ -30,7 +34,12 @@ declare type User = {
   firstName: string;
   lastName: string;
   name: string;
-  phoneNumber: string;
+  address1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  dateOfBirth: string;
+  name: string;
   ssn: string;
 };
 
@@ -121,8 +130,13 @@ declare type NewDwollaCustomerParams = {
   lastName: string;
   email: string;
   type: string;
+  address1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  dateOfBirth: string;
   ssn: string;
-  phoneNumber: string;
+  
 };
 
 declare interface CreditCardProps {

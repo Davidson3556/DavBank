@@ -198,20 +198,17 @@ export const authFormSchema =(type:string) => z.object({
       // sign up
   firstName: type === 'sign-in' ? z.string().optional() : z.string().min(3),
   lastName: type === 'sign-in' ? z.string().optional() : z.string().min(3),
-  phoneNumber: type === 'sign-in' ? z.string().optional() : z.string().min(10),
-  state: type === 'sign-in' ? z.string().optional() : z.string().min(2).max(2),
   ssn: type === 'sign-in' ? z.string().optional() : z.string().min(4),
+  address1: type === 'sign-in' ? z.string().optional() : z.string().max(50),
+  city: type === 'sign-in' ? z.string().optional() : z.string().max(50),
+  state: type === 'sign-in' ? z.string().optional() : z.string().min(2).max(2),
+  postalCode: type === 'sign-in' ? z.string().optional() : z.string().min(3).max(6),
+  dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().min(3),
   // Confirm password
-  confirmPassword: type === 'sign-up'
-  ? z.string().min(8, "Confirm Password must be at least 8 characters")
-  : z.string().optional(),
 
   // both
   email: z.string().email(),
   password: z.string().min(8),
     
   })
-  .refine((data) => type === 'sign-up' ? data.password === data.confirmPassword : true, {
-    message: "Passwords must match",
-    path: ["confirmPassword"], // This sets the error message on the confirmPassword field
-  });
+  
