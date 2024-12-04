@@ -13,7 +13,7 @@ const RightSidebar = ({user, transactions, banks}: RightSidebarProps) => {
             <div className="profile">
                 <div className="profile-img">
                     <span className="text-5xl font-bold
-                    text-[#ee9f39]">{user.name[0]}</span>
+                    text-[#ee9f39]">{user.firstName[0]}</span>
 
                 </div>
                 <div className="profile-details">
