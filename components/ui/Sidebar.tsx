@@ -17,17 +17,9 @@ const Sidebar = ({user} : SiderbarProps) => {
       className="mb-12
       cursor-pointer
       items-center gap-2 flex ">
-        <Image 
-        src="/icons/logo.svg"
-         width={34}
-        height={34}
-        alt="Dav logo"
-        className="size-[24px] 
-        max-xl:size-14"
-
-        />
+     
         <h1 className="sidebar-logo">
-          Dav</h1>
+          Transactly</h1>
       </Link>
       {sidebarLinks.map((item) =>{
         const isActive = 
