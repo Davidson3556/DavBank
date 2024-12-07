@@ -10,10 +10,11 @@ const ibmPlexSerif = IBM_Plex_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "DAV",
-  description: "DAV is a modern banking platform for everyone in the world.",
+  title: "Transactly",
+  description: "Transactly is a modern banking platform for everyone in the world.",
   icons: {
-   icon:'/icons/logo.svg'
+   icon:'/icons/login.svg'
+   
   }
 };
 
