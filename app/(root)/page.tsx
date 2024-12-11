@@ -1,4 +1,4 @@
-import RecentTransaction from "@/components/RecentTransaction";
+import RecentTransaction from "@/components/ui/RecentTransaction";
 import HeaderBox from "@/components/ui/HeaderBox";
 import RightSidebar from "@/components/ui/RightSidebar";
 import TotalBalanceBox from "@/components/ui/TotalBalanceBox";

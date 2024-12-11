@@ -1,3 +1,4 @@
+
 /* eslint-disable no-unused-vars */
 
 declare type SearchParamProps = {
@@ -39,7 +40,7 @@ declare type User = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
-  name: string;
+  
   ssn: string;
 };
 
@@ -136,7 +137,6 @@ declare type NewDwollaCustomerParams = {
   postalCode: string;
   dateOfBirth: string;
   ssn: string;
-  
 };
 
 declare interface CreditCardProps {
