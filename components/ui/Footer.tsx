@@ -24,14 +24,14 @@ const Footer = ({user, type='desktop'}: FooterProps)=> {
       <h1 className="text-14 truncate font-semibold text-gray-700">
         {user?.name}
       </h1>
-    <p className="text-14 truncate font-normal text-gray-600">
-        {user?.email}
+    <p className="text-14 truncate font-normal text-[#8906BF] ">
+    {user.firstName} {user.lastName}   
     </p>
     </div>
 
 
     <div className="footer_image" onClick={handleLogOut}>
-      <Image src="icons/logout.svg" fill alt="logout"/>
+      <Image src="icons/logout1.svg" fill alt="logout"/>
     </div>
     </footer>
   )

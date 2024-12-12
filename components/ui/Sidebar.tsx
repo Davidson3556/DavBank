@@ -13,7 +13,7 @@ const Sidebar = ({user} : SiderbarProps) => {
   return (
     <section className="sidebar">
     <nav className="flex 
-    flex-col gap-4">
+    flex-col gap-4 sm:p-4 xl:p-6">
       <Link href="/"
       className="mb-12
       cursor-pointer
