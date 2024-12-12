@@ -1,4 +1,4 @@
-import RecentTransaction from "@/components/RecentTransaction";
+import RecentTransaction from "@/components/ui/RecentTransaction";
 import HeaderBox from "@/components/ui/HeaderBox";
 import RightSidebar from "@/components/ui/RightSidebar";
 import TotalBalanceBox from "@/components/ui/TotalBalanceBox";
@@ -26,7 +26,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
         <header className="home-header">
           <HeaderBox
             type="greeting"
-            title="Welcome"
+            title="Welcome,"
             user={loggedIn?.firstName || "Guest"}
             subtext="Easily access and manage your account and transactions."
           />
@@ -39,7 +39,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
         
         <RecentTransaction
         accounts={accountsData}
-        transactions={accounts?.transactions}
+        transactions={account?.transactions}
         appwriteItemId={appwriteItemId}
         page={currentPage}
         />
