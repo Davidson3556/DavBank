@@ -133,9 +133,7 @@
     @apply text-24 lg:text-30 flex-1 font-semibold text-gray-900;
   }
 
-  .recent-transactions {
-    @apply flex w-full flex-col gap-6;
-  }
+
 
   .view-all-btn {
     @apply text-14 rounded-lg border bg-[#F6E0FF] px-4 py-2.5 font-semibold text-[#344054];
@@ -244,7 +242,7 @@
   }
 
   .banktab-item {
-    @apply gap-[18px] border-b-2 flex px-2 sm:px-4 py-2 transition-all;
+    @apply gap-[18px] border-b-2 flex px-2 sm:px-4 py-2 transition-all text-[white];
   }
 
   /* Mobile nav */
