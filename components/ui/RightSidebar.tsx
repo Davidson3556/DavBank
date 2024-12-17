@@ -11,7 +11,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
 
         
       <aside className="right-sidebar">
-        <section className=" flex flex-col pb-8">
+        {/* <section className=" flex flex-col pb-8">
             <div className="profile-banner"/>
             <div className="profile">
                 <div className="profile-img">
@@ -29,7 +29,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                 </div>
 
             </div>
-        </section>
+        </section> */}
         <section className='banks'>
             <div className='flex w-full justify-between'>
                 <h2 className='header-2'>My Banks</h2>
@@ -38,9 +38,10 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                     src="/icons/plus.svg"
                     width={20}
                     height={20}
-                    alt='plus'        
+                    alt='plus'  
+                    className='text-[#8906BF]'      
                     />
-                    <h2 className='text-14 text-gray-600
+                    <h2 className='text-14 text-[#8906BF]
                     font-semibold'>Add bank</h2>
                 </Link>
             </div>
@@ -53,19 +54,23 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                         account={banks[0]}
                         userName={`${user.firstName} ${user.lastName}`}
                         showBalance={false}
+                        className="bank-gradient" 
+                        
                         />
                     </div>
                     {banks[1] && (
-                        <div className='absolute right-0 top-8 z-0 w-[90%]'>
+                        <div className='absolute left-0 top-[3rem] z-10 w-[90%]'>
                              <BankCard key={banks [1].$id}
                         account={banks[1]}
                         userName={`${user.firstName} ${user.lastName}`}
                         showBalance={false}
+                        className="card-gradient"
                         />
                         </div>
 
                     )}
                     
+             
                 </div>
                 
             )}
