@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BankTabItem } from './ui/BankTabitem';
-import BankInfo from './ui/BankInfo';
-import TransactionsTable from './ui/TransactionsTable';
+import { BankTabItem } from './BankTabitem';
+import BankInfo from './BankInfo';
+import TransactionsTable from './TransactionsTable';
+import { Pagination } from './pagination';
 
 const RecentTransactions = ({
     accounts,
@@ -11,6 +12,16 @@ const RecentTransactions = ({
     appwriteItemId,
     page = 1,
 }:RecentTransactionsProps) => {
+  const rowsPerPage = 10;
+  const totalPages = Math.ceil(transactions.length / rowsPerPage);
+
+  const indexOfLastTransaction = page * rowsPerPage;
+  const indexOfFirstTransaction = indexOfLastTransaction - rowsPerPage;
+  const currentTransactions = transactions.slice(
+    indexOfFirstTransaction,
+    indexOfLastTransaction
+  );
+
   return (
     <section className="recent-transactions">
       <header className="flex items-center justify-between">
@@ -25,7 +36,8 @@ const RecentTransactions = ({
             <Tabs defaultValue={appwriteItemId} className="w-full">
                 <TabsList className="recent-transactions-tablist">
                {accounts?.map((account: Account) => (
-                    <TabsTrigger key={account.id} value={account.appwriteItemId}>
+                    <TabsTrigger
+                     key={account.id} value={account.appwriteItemId}>
                         <BankTabItem
                         key={account.id} 
                         account={account}
@@ -39,7 +51,7 @@ const RecentTransactions = ({
                <TabsContent
                 value={account.appwriteItemId}
                 key={account.id}
-                className='space-y-4'
+                className='space-y-4 '
                 >
                     <BankInfo
                     account={account}
@@ -50,7 +62,7 @@ const RecentTransactions = ({
                     <TransactionsTable
                     transactions={transactions}
                     />
-
+                <Pagination totalPages={totalPages} page={page}/>
                 </TabsContent>
                ))}
             </Tabs>

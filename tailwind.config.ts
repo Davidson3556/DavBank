@@ -75,7 +75,8 @@ const config = {
         },
       },
       backgroundImage: {
-        "bank-gradient": "linear-gradient(90deg, #ee9f39 0%, #f4df81 100%)",
+        "bank-gradient": "linear-gradient(225deg, hsla(209, 100%, 36%, 1) 4%, hsla(0, 0%, 8%, 1) 95%)",
+        "card-gradient": "linear-gradient(225deg, hsla(222, 98%, 21%, 1) 4%, hsla(351, 81%, 49%, 1) 95%)",
         "gradient-mesh": "url('/icons/mesh-gradient.png')",
         "bank-green-gradient":
           "linear-gradient(90deg, #01797A 0%, #489399 100%)",
