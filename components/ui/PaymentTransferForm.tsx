@@ -12,7 +12,6 @@ import { createTransaction } from "@/lib/actions/transaction.actions";
 import { getBank, getBankByAccountId } from "@/lib/actions/user.actions";
 import { decryptId } from "@/lib/utils";
 
-import { BankDropdown } from "./bank/BankDropdown";
 import { Button } from "./button";
 import {
   Form,
@@ -25,6 +24,7 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { Textarea } from "./textarea";
+import { BankDropdown } from "../BankDropdown";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
