@@ -13,7 +13,7 @@ const BankCard = ( {account, userName, className,showBalance = true }: CreditCar
                 <div>
                     <h1 className='text-16 font-semibold 
                     text-white'>
-                        {userName}
+                        {account.name}
                     </h1>
                     <p className='font-ibm-plex-serif font-black 
                     text-white'>
