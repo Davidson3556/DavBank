@@ -20,7 +20,7 @@ export default function RootLayout({
                 className="self-center h-[500px]"
                                 />
 
-          <p className="text-[#8A00C2] font-bold justify-items-center grid text-2xl">Simplifying
+          <p className="text-[#8A00C2] font-bold text-center text-xl">Simplifying
            Payments, <br/>Reshaping Transactions</p>
 
             </div>

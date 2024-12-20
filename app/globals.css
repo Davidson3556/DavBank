@@ -45,7 +45,7 @@
 
 @layer utilities {
   .input-class {
-    @apply text-16 placeholder:text-16 rounded-lg border border-[#FFFFFF] text-gray-900 bg-btninput-60 placeholder-[white];
+    @apply text-16 placeholder:text-16 rounded-lg border border-[#FFFFFF] text-white bg-btninput-60 placeholder-[white];
   }
 
   .sheet-content button {
@@ -288,7 +288,7 @@
   }
 
   .form-label {
-    @apply text-14 w-full max-w-[280px] font-medium text-gray-700;
+    @apply text-14 w-full max-w-[280px] font-medium text-white;
   }
 
   .form-message {

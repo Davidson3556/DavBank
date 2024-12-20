@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -91,7 +92,7 @@ const AuthForm = ({ type }: { type: string }) => {
               {user
                 ? "Link Account"
                 : type === "sign-in"
-                ? "Please enter your details to log in."
+                ? "Welcome back! please enter your details"
                 : "Create an account to get started."}
             </p>
           </h1>
