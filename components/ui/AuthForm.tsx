@@ -5,11 +5,9 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
-import {
-  Form,
- 
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import CustomInput from "./CustomInput";
 import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
@@ -85,14 +83,14 @@ const AuthForm = ({ type }: { type: string }) => {
             {user
               ? "Link Account"
               : type === "sign-in"
-              ? "Log In"
-              : "Create an account"}
+                ? "Log In"
+                : "Create an account"}
             <p className="text-16 font-normal text-[#F6E0FF] mt-5">
               {user
                 ? "Link Account"
                 : type === "sign-in"
-                ? "Please enter your details to log in."
-                : "Create an account to get started."}
+                  ? "Welcome back! please enter your details"
+                  : "Create an account to get started."}
             </p>
           </h1>
         </div>
@@ -169,7 +167,6 @@ const AuthForm = ({ type }: { type: string }) => {
                       label=""
                       placeholder="Postal code"
                     />
-                    
                   </div>
                   <CustomInput
                     control={form.control}

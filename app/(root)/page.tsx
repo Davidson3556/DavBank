@@ -18,8 +18,6 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
 
   const account = await getAccount({ appwriteItemId });
 
-  
-
   return (
     <section className="home">
       <div className="home-content">
@@ -36,14 +34,13 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
             totalCurrentBalance={accounts?.totalCurrentBalance}
           />
         </header>
-        
-        <RecentTransaction
-        accounts={accountsData}
-        transactions={account?.transactions}
-        appwriteItemId={appwriteItemId}
-        page={currentPage}
-        />
 
+        <RecentTransaction
+          accounts={accountsData}
+          transactions={account?.transactions}
+          appwriteItemId={appwriteItemId}
+          page={currentPage}
+        />
       </div>
       <RightSidebar
         user={loggedIn}

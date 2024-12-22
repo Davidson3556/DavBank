@@ -1,4 +1,3 @@
-
 /* eslint-disable no-unused-vars */
 
 declare type SearchParamProps = {
@@ -40,7 +39,7 @@ declare type User = {
   state: string;
   postalCode: string;
   dateOfBirth: string;
-  
+
   ssn: string;
 };
 
@@ -213,7 +212,7 @@ declare interface TotalBalanceBoxProps {
 
 declare interface FooterProps {
   user: User;
-  type?: 'mobile' | 'desktop'
+  type?: "mobile" | "desktop";
 }
 
 declare interface RightSidebarProps {
