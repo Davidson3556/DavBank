@@ -52,6 +52,7 @@ export const BankDropdown = ({
           width={20}
           height={20}
           alt="account"
+          className="text-btncolor"
         />
         <p className="line-clamp-1 w-full text-left">{selected.name}</p>
       </SelectTrigger>

@@ -197,7 +197,7 @@
   }
 
   .transactions-account {
-    @apply flex flex-col justify-between gap-4 rounded-lg border-y bg-blue-600 px-4 py-5 md:flex-row;
+    @apply flex flex-col justify-between gap-4 rounded-lg border-y bg-btncolor px-4 py-5 md:flex-row;
   }
 
   .transactions-account-balance {
@@ -320,7 +320,7 @@
   }
 
   .payment-transfer_btn {
-    @apply text-14 w-full bg-bank-gradient font-semibold text-white shadow-form !important;
+    @apply text-14 w-full bg-btncolor font-semibold text-white shadow-form !important;
   }
 
   /* Root Layout */
