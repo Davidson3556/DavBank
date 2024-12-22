@@ -1,4 +1,3 @@
-
 "use server";
 
 import { Client } from "dwolla-v2";
@@ -13,7 +12,7 @@ const getEnvironment = (): "production" | "sandbox" => {
       return "production";
     default:
       throw new Error(
-        "Dwolla environment should either be set to `sandbox` or `production`"
+        "Dwolla environment should either be set to `sandbox` or `production`",
       );
   }
 };
@@ -26,7 +25,7 @@ const dwollaClient = new Client({
 
 // Create a Dwolla Funding Source using a Plaid Processor Token
 export const createFundingSource = async (
-  options: CreateFundingSourceOptions
+  options: CreateFundingSourceOptions,
 ) => {
   try {
     return await dwollaClient
@@ -43,7 +42,7 @@ export const createFundingSource = async (
 export const createOnDemandAuthorization = async () => {
   try {
     const onDemandAuthorization = await dwollaClient.post(
-      "on-demand-authorizations"
+      "on-demand-authorizations",
     );
     const authLink = onDemandAuthorization.body._links;
     return authLink;
@@ -53,7 +52,7 @@ export const createOnDemandAuthorization = async () => {
 };
 
 export const createDwollaCustomer = async (
-  newCustomer: NewDwollaCustomerParams
+  newCustomer: NewDwollaCustomerParams,
 ) => {
   try {
     return await dwollaClient

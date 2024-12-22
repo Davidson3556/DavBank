@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Button } from "./button";
 
-
 const Copy = ({ title }: { title: string }) => {
   const [hasCopied, setHasCopied] = useState(false);
 

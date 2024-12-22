@@ -24,11 +24,11 @@ const config = {
           1: "rgba(255, 255, 255, 0.10)",
         },
         bankGradient: "#5B0080",
-        btncolor:"#8906BF",
-        btninput:{
-          60:"#F6E0FF99"
+        btncolor: "#8906BF",
+        btninput: {
+          60: "#F6E0FF99",
         },
-        sideBarColor:"#330546",
+        sideBarColor: "#330546",
         indigo: {
           500: "#6172F3",
           700: "#3538CD",
@@ -75,12 +75,14 @@ const config = {
         },
       },
       backgroundImage: {
-        "bank-gradient": "linear-gradient(225deg, hsla(209, 100%, 36%, 1) 4%, hsla(0, 0%, 8%, 1) 95%)",
-        "card-gradient": "linear-gradient(225deg, hsla(222, 98%, 21%, 1) 4%, hsla(351, 81%, 49%, 1) 95%)",
+        "bank-gradient":
+          "linear-gradient(225deg, hsla(209, 100%, 36%, 1) 4%, hsla(0, 0%, 8%, 1) 95%)",
+        "card-gradient":
+          "linear-gradient(225deg, hsla(222, 98%, 21%, 1) 4%, hsla(351, 81%, 49%, 1) 95%)",
         "gradient-mesh": "url('/icons/mesh-gradient.png')",
         "bank-green-gradient":
           "linear-gradient(90deg, #01797A 0%, #489399 100%)",
-          "sidebar-hover":"[#5B0080]",
+        "sidebar-hover": "[#5B0080]",
       },
       boxShadow: {
         form: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",

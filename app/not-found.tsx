@@ -1,5 +1,5 @@
-'use client';
-import React, { use } from 'react';
+"use client";
+import React, { use } from "react";
 
 const ErrorPage = () => {
   return (
@@ -7,7 +7,9 @@ const ErrorPage = () => {
       <div className="max-w-md">
         {/* Heading */}
         <h1 className="text-4xl font-bold text-purple-700 mb-4">Oops!</h1>
-        <p className="text-xl font-medium text-gray-800">Sorry, this page is not found</p>
+        <p className="text-xl font-medium text-gray-800">
+          Sorry, this page is not found
+        </p>
 
         {/* Description */}
         <p className="mt-2 text-gray-600">
@@ -17,7 +19,7 @@ const ErrorPage = () => {
         {/* Illustration */}
         <div className="my-8">
           <img
-            src="https://via.placeholder.com/150" 
+            src="https://via.placeholder.com/150"
             alt="404 Illustration"
             className="mx-auto"
           />
