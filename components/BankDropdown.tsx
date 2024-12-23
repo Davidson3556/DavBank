@@ -48,10 +48,11 @@ export const BankDropdown = ({
         className={`flex w-full bg-white gap-3 md:w-[300px] ${otherStyles}`}
       >
         <Image
-          src="icons/credit-card.svg"
+          src="icons/credit-card2.svg"
           width={20}
           height={20}
           alt="account"
+          className="text-btncolor"
         />
         <p className="line-clamp-1 w-full text-left">{selected.name}</p>
       </SelectTrigger>

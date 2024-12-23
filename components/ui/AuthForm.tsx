@@ -14,6 +14,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 import PlaidLink from "./PlaidLink";
+import { toast } from 'react-toastify';
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
@@ -55,6 +56,8 @@ const AuthForm = ({ type }: { type: string }) => {
         const newUser = await signUp(userData);
 
         setUser(newUser);
+        toast.success('Account created successfully!');
+        return;
       }
 
       if (type === "sign-in") {
@@ -64,10 +67,15 @@ const AuthForm = ({ type }: { type: string }) => {
         });
 
         if (response) router.push("/");
+        toast.success('Signed in successfully!');
+          return;
       }
     } catch (error) {
-      console.log(error);
-    } finally {
+      error instanceof Error
+      ? toast.error(error.message)
+      : toast.error('Submission error');
+    console.error('Submission error:', error);
+      } finally {
       setIsLoading(false);
     }
   };

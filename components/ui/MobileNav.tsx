@@ -38,14 +38,9 @@ const MobileNav = ({ user }: MobileNavProps) => {
       cursor-pointer
       items-center gap-1 px-4 flex"
           >
-            <Image
-              src="/icons/logo.svg"
-              width={34}
-              height={34}
-              alt="Dav logo"
-            />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-[#ee9f39]">
-              DAV
+           
+            <h1 className="text-26 font-ibm-plex-serif font-bold text-white">
+              Transactly
             </h1>
           </Link>
           <div className="mobilenav-sheet">
