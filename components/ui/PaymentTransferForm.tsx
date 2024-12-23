@@ -144,7 +144,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                   <FormControl>
                     <Textarea
                       placeholder="Write a short note here"
-                      className="input-class"
+                      className="transfer-input-class"
                       {...field}
                     />
                   </FormControl>
@@ -177,7 +177,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                   <FormControl>
                     <Input
                       placeholder="ex: johndoe@gmail.com"
-                      className="input-class"
+                      className="transfer-input-class"
                       {...field}
                     />
                   </FormControl>
@@ -201,7 +201,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                   <FormControl>
                     <Input
                       placeholder="Enter the public account number"
-                      className="input-class"
+                      className="transfer-input-class"
                       {...field}
                     />
                   </FormControl>
@@ -225,7 +225,7 @@ const PaymentTransferForm = ({ accounts }: PaymentTransferFormProps) => {
                   <FormControl>
                     <Input
                       placeholder="ex: 5.00"
-                      className="input-class"
+                      className="transfer-input-class"
                       {...field}
                     />
                   </FormControl>
