@@ -1,11 +1,17 @@
+import { getLoggedInUser } from '@/lib/actions/user.actions';
 import Image from "next/image";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const loggedIn = await getLoggedInUser();
+
   return (
+
     <main
       className="flex min-h-screen w-full
       justify-between font-inter bg-[#41005C]"
@@ -28,6 +34,7 @@ export default function RootLayout({
         </div>
       </div>
       {children}
+      <ToastContainer />
     </main>
   );
 }
