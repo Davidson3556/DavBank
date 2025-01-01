@@ -7,14 +7,67 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormLabel } from "@/components/ui/form";
 import CustomInput from "./CustomInput";
 import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 import PlaidLink from "./PlaidLink";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+
+const US_STATES = [
+  "Alabama",
+  "Alaska",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "Florida",
+  "Georgia",
+  "Hawaii",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Iowa",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Maine",
+  "Maryland",
+  "Massachusetts",
+  "Michigan",
+  "Minnesota",
+  "Mississippi",
+  "Missouri",
+  "Montana",
+  "Nebraska",
+  "Nevada",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "New York",
+  "North Carolina",
+  "North Dakota",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Pennsylvania",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Vermont",
+  "Virginia",
+  "Washington",
+  "West Virginia",
+  "Wisconsin",
+  "Wyoming",
+];
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
@@ -56,7 +109,7 @@ const AuthForm = ({ type }: { type: string }) => {
         const newUser = await signUp(userData);
 
         setUser(newUser);
-        toast.success('Account created successfully!');
+        toast.success("Account created successfully!");
         return;
       }
 
@@ -67,15 +120,15 @@ const AuthForm = ({ type }: { type: string }) => {
         });
 
         if (response) router.push("/");
-        toast.success('Signed in successfully!');
-          return;
+        toast.success("Signed in successfully!");
+        return;
       }
     } catch (error) {
       error instanceof Error
-      ? toast.error(error.message)
-      : toast.error('Submission error');
-    console.error('Submission error:', error);
-      } finally {
+        ? toast.error(error.message)
+        : toast.error("Submission error");
+      console.error("Submission error:", error);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -155,18 +208,32 @@ const AuthForm = ({ type }: { type: string }) => {
                     />
                   </div>
                   <div className="flex gap-4">
-                    <CustomInput
-                      control={form.control}
-                      name="state"
-                      label=""
-                      placeholder="State"
-                    />
-                    <CustomInput
-                      control={form.control}
-                      name="city"
-                      label=""
-                      placeholder="City"
-                    />
+                    <div className="w-full">
+                      <FormField
+                        control={form.control}
+                        name="state"
+                        render={({ field }) => (
+                          <div className="form-item">
+                            <FormControl>
+                              <select
+                                {...field}
+                                className="input-class"
+                              >
+                                <option value="" disabled>
+                                  Select a state
+                                </option>
+                                {US_STATES.map((state) => (
+                                  <option key={state} value={state}>
+                                    {state}
+                                  </option>
+                                ))}
+                              </select>
+                            </FormControl>
+                          </div>
+                        )}
+                      />
+                    </div>
+                    
                   </div>
                   <div className="flex gap-4">
                     <CustomInput
@@ -174,6 +241,12 @@ const AuthForm = ({ type }: { type: string }) => {
                       name="postalCode"
                       label=""
                       placeholder="Postal code"
+                    />
+                    <CustomInput
+                      control={form.control}
+                      name="city"
+                      label=""
+                      placeholder="City"
                     />
                   </div>
                   <CustomInput
