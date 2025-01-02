@@ -15,6 +15,10 @@ import { useRouter } from "next/navigation";
 import { getLoggedInUser, signIn, signUp } from "@/lib/actions/user.actions";
 import PlaidLink from "./PlaidLink";
 import { toast } from "react-toastify";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, parseISO } from "date-fns";
+
 
 const US_STATES = [
   "Alabama",
@@ -194,12 +198,28 @@ const AuthForm = ({ type }: { type: string }) => {
                     placeholder="Enter your specific address"
                   />
                   <div className="flex gap-4">
-                    <CustomInput
-                      control={form.control}
-                      name="dateOfBirth"
-                      label=""
-                      placeholder="YYYY-MM-DD"
-                    />
+                    
+                  <FormField
+    control={form.control}
+    name="dateOfBirth"
+    render={({ field }) => (
+      <div className="form-item">
+        <FormControl>
+          <ReactDatePicker
+            selected={field.value ? parseISO(field.value) : null}
+            onChange={(date) => field.onChange(date ? format(date, "yyyy-MM-dd") : "")}
+            dateFormat="yyyy-MM-dd"
+            placeholderText="YYYY-MM-DD"
+            className="input-class h-10"
+            maxDate={new Date()} // Ensure dates are in the past
+            showYearDropdown
+            scrollableYearDropdown
+            yearDropdownItemNumber={100} // Show 100 years
+          />
+        </FormControl>
+      </div>
+    )}
+  />
                     <CustomInput
                       control={form.control}
                       name="ssn"
@@ -208,22 +228,23 @@ const AuthForm = ({ type }: { type: string }) => {
                     />
                   </div>
                   <div className="flex gap-4">
-                    <div className="w-full">
+                    <div className="flex w-full flex-col h-10">
                       <FormField
                         control={form.control}
-                        name="state"
+                        name="city"
                         render={({ field }) => (
                           <div className="form-item">
                             <FormControl>
                               <select
                                 {...field}
-                                className="input-class"
+                                className="inputauth-class h-10"
                               >
                                 <option value="" disabled>
                                   Select a state
                                 </option>
                                 {US_STATES.map((state) => (
-                                  <option key={state} value={state}>
+                                  <option key={state} value={state}
+                                  className="bg-white text-btncolor">
                                     {state}
                                   </option>
                                 ))}
@@ -235,6 +256,8 @@ const AuthForm = ({ type }: { type: string }) => {
                     </div>
                     
                   </div>
+
+
                   <div className="flex gap-4">
                     <CustomInput
                       control={form.control}
@@ -244,7 +267,7 @@ const AuthForm = ({ type }: { type: string }) => {
                     />
                     <CustomInput
                       control={form.control}
-                      name="city"
+                      name="state"
                       label=""
                       placeholder="City"
                     />
