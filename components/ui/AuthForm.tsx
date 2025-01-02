@@ -242,10 +242,10 @@ const AuthForm = ({ type }: { type: string }) => {
                                 <option value="" disabled>
                                   Select a state
                                 </option>
-                                {US_STATES.map((state) => (
-                                  <option key={state} value={state}
+                                {US_STATES.map((city) => (
+                                  <option key={city} value={city}
                                   className="bg-white text-btncolor">
-                                    {state}
+                                    {city}
                                   </option>
                                 ))}
                               </select>
