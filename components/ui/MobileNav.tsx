@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Footer from "./Footer";
+import PlaidLink from "./PlaidLink";
 
 const MobileNav = ({ user }: MobileNavProps) => {
   const pathname = usePathname();
@@ -34,7 +35,6 @@ const MobileNav = ({ user }: MobileNavProps) => {
       cursor-pointer
       items-center gap-1 px-4 flex"
           >
-           
             <h1 className="text-26 font-ibm-plex-serif font-bold text-white">
               Transactly
             </h1>
@@ -77,7 +77,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
                     </SheetClose>
                   );
                 })}
-                USER
+                <PlaidLink user={user} />
               </nav>
             </SheetClose>
             <Footer user={user} type="mobile" />
