@@ -35,7 +35,6 @@ const MobileNav = ({ user }: MobileNavProps) => {
       cursor-pointer
       items-center gap-1 px-4 flex"
           >
-           
             <h1 className="text-26 font-ibm-plex-serif font-bold text-white">
               Transactly
             </h1>
@@ -78,7 +77,7 @@ const MobileNav = ({ user }: MobileNavProps) => {
                     </SheetClose>
                   );
                 })}
-        <PlaidLink user={user} />
+                <PlaidLink user={user} />
               </nav>
             </SheetClose>
             <Footer user={user} type="mobile" />
