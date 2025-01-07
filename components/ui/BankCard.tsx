@@ -17,14 +17,26 @@ const BankCard = ({
         className="bank-card"
       >
         <div className="bank-card_content">
-          <div>
+          <div className="flex">
             <h1
               className="text-16 font-semibold 
                     text-white"
             >
               {account.name}
             </h1>
-            <p
+            <Image
+            src="/icons/mastercard.svg"
+            width={45}
+            height={32}
+            alt="mastercard"
+            className="ml-5"
+          />
+          </div>
+          <div>
+            <h1 className="text-[#FFFFFF66] tracking-[3px]">
+              Card  Balance
+            </h1>
+          <p
               className="font-ibm-plex-serif font-black 
                     text-white"
             >
@@ -35,40 +47,24 @@ const BankCard = ({
             <div className="flex justify-between">
               <h1
                 className="text-12 font-semibold
-                         text-white"
+                         text-[#FFFFFF9E]"
               >
-                {userName}
+                 ●●/●●
               </h1>
               <h2
-                className="text-12 font-semibold
-                          text-white"
+                className="text-12 font-normal
+                          text-white tracking-[1.1px]"
               >
-                ●●/●●
+              ●●●● ●●●● ●●●● <span className="text-12">1234</span>
               </h2>
             </div>
-            <p className="text-14 font-semibold tracking-[1.1px] text-white">
-              ●●●● ●●●● ●●●● <span className="text-16">1234</span>
-            </p>
+            
+            {userName}
           </article>
         </div>
 
-        <div className="bank-card_icon">
-          <Image src="/icons/Paypass.svg" width={20} height={24} alt="pay" />
-          <Image
-            src="/icons/mastercard.svg"
-            width={45}
-            height={32}
-            alt="mastercard"
-            className="ml-5"
-          />
-        </div>
-        <Image
-          src="/icons/lines.png"
-          width={316}
-          height={190}
-          alt="lines"
-          className="absolute top-0 left-0"
-        />
+       
+       
       </Link>
       {showBalance && <Copy title={account?.shareableId} />}
     </div>
