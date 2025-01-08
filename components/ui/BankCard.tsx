@@ -25,8 +25,8 @@ const BankCard = ({
               {account.name}
             </h1>
             <Image
-            src="/icons/mastercard.svg"
-            width={45}
+            src="/icons/mastercardlogo.svg"
+            width={30}
             height={32}
             alt="mastercard"
             className="ml-auto"
