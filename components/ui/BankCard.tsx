@@ -56,10 +56,10 @@ const BankCard = ({
                           text-white tracking-[1.1px]"
               >
               ●●●● ●●●● ●●●● <span className="text-12">1234</span>
-              </h2>
+              </h2> {userName}
             </div>
+           
             
-            {userName}
           </article>
         </div>
 
