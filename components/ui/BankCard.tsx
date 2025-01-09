@@ -56,9 +56,9 @@ const BankCard = ({
                           text-white tracking-[1.1px]"
               >
               ●●●● ●●●● ●●●● <span className="text-12">1234</span>
-              </h2> {userName}
+              </h2>
             </div>
-           
+            {userName}
             
           </article>
         </div>
