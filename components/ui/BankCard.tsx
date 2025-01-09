@@ -25,11 +25,11 @@ const BankCard = ({
               {account.name}
             </h1>
             <Image
-            src="/icons/mastercard.svg"
-            width={45}
+            src="/icons/mastercardlogo.svg"
+            width={30}
             height={32}
             alt="mastercard"
-            className="ml-5"
+            className="ml-auto"
           />
           </div>
           <div>
@@ -56,10 +56,10 @@ const BankCard = ({
                           text-white tracking-[1.1px]"
               >
               ●●●● ●●●● ●●●● <span className="text-12">1234</span>
-              </h2>
+              </h2> {userName}
             </div>
+           
             
-            {userName}
           </article>
         </div>
 
