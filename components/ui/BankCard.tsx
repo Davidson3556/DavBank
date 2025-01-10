@@ -36,12 +36,30 @@ const BankCard = ({
             <h1 className="text-[#FFFFFF66] tracking-[3px]">
               Card  Balance
             </h1>
+
+        <div className="flex">
           <p
               className="font-ibm-plex-serif font-black 
                     text-white"
             >
               {formatAmount(account.currentBalance)}
             </p>
+
+             <Image
+            src="/icons/chip.svg"
+            width={30}
+            height={32}
+            alt="mastercard"
+            className="ml-auto"
+          />
+          <Image
+            src="/icons/wifi.svg"
+            width={30}
+            height={32}
+            alt="mastercard"
+            className="ml-auto"
+          />
+          </div>
           </div>
           <article className="flex flex-col gap-2">
             <div className="flex justify-between">
@@ -56,9 +74,15 @@ const BankCard = ({
                           text-white tracking-[1.1px]"
               >
               ●●●● ●●●● ●●●● <span className="text-12">1234</span>
-              </h2> {userName}
+              </h2>
             </div>
-           
+            <p
+              className="
+                    text-white"
+            >
+              {userName}
+            </p>
+            
             
           </article>
         </div>
