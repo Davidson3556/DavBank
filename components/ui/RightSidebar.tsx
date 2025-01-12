@@ -47,7 +47,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
               />
             </div>
             {banks[1] && (
-              <div className="absolute left-0 top-[3rem] z-10 w-[90%]">
+              <div className="absolute left-0 top-[3rem] z-10 w-[90%] mt-11">
                 <BankCard
                   key={banks[1].$id}
                   account={banks[1]}
@@ -59,7 +59,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
             )}
           </div>
         )}
-        <div className="mt-10 flex flex-1 flex-col gap-6">
+        <div className="mt-20 flex flex-1 flex-col gap-6">
           <h2 className="header-2">Top Categories</h2>
           <div className="space-y-5">
             {categories.map((category, index) => (
