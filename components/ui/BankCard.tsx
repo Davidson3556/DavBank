@@ -33,7 +33,7 @@ const BankCard = ({
           />
           </div>
           <div>
-            <h1 className="text-[#FFFFFF66] tracking-[3px]">
+            <h1 className="text-[#FFFFFF66] tracking-[3px] pt-4">
               Card  Balance
             </h1>
 
@@ -61,7 +61,7 @@ const BankCard = ({
           />
           </div>
           </div>
-          <article className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 bg-[#0E0E0E] mt-4">
             <div className="flex justify-between">
               <h1
                 className="text-12 font-semibold
@@ -84,7 +84,7 @@ const BankCard = ({
             </p>
             
             
-          </article>
+          </div>
         </div>
 
        
