@@ -130,7 +130,7 @@ const AuthForm = ({ type }: { type: string }) => {
     } catch (error) {
       error instanceof Error
         ? toast.error(error.message)
-        : toast.error("Submission error");
+        : toast.error("Submission error, try error");
       console.error("Submission error:", error);
     } finally {
       setIsLoading(false);
