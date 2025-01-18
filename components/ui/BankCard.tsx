@@ -47,21 +47,21 @@ const BankCard = ({
 
              <Image
             src="/icons/chip.svg"
-            width={25}
-            height={25}
+            width={22}
+            height={22}
             alt="chip"
             className="ml-28"
           />
           <Image
             src="/icons/wifi.svg"
-            width={25}
-            height={25}
+            width={22}
+            height={22}
             alt="mastercard"
             className="ml-auto"
           />
           </div>
           </div>
-          <div className="flex flex-col gap-2 bg-[#0E0E0E] mt-5 mx-[-20px] rounded-b-xl">
+          <div className="flex flex-col gap-2 bg-[#0E0E0E] mt-9 mx-[-20px] rounded-b-xl">
             <div className="flex justify-between">
               <h1
                 className="text-12 font-semibold
