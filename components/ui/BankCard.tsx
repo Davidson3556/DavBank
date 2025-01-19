@@ -25,41 +25,41 @@ const BankCard = ({
               {account.name}
             </h1>
             <Image
-            src="/icons/mastercardlogo.svg"
-            width={30}
-            height={32}
-            alt="mastercard"
-            className="ml-auto"
-          />
+              src="/icons/mastercardlogo.svg"
+              width={30}
+              height={32}
+              alt="mastercard"
+              className="ml-auto"
+            />
           </div>
           <div>
             <h1 className="text-[#FFFFFF66] tracking-[3px] pt-4 ">
-              Card  Balance
+              Card Balance
             </h1>
 
-        <div className="flex mt-1">
-          <p
-              className="font-ibm-plex-serif font-black 
+            <div className="flex mt-1">
+              <p
+                className="font-ibm-plex-serif font-black 
                     text-white"
-            >
-              {formatAmount(account.currentBalance)}
-            </p>
+              >
+                {formatAmount(account.currentBalance)}
+              </p>
 
-             <Image
-            src="/icons/chip.svg"
-            width={22}
-            height={22}
-            alt="chip"
-            className="ml-28"
-          />
-          <Image
-            src="/icons/wifi.svg"
-            width={22}
-            height={22}
-            alt="mastercard"
-            className="ml-auto"
-          />
-          </div>
+              <Image
+                src="/icons/chip.svg"
+                width={22}
+                height={22}
+                alt="chip"
+                className="ml-28"
+              />
+              <Image
+                src="/icons/wifi.svg"
+                width={22}
+                height={22}
+                alt="mastercard"
+                className="ml-auto"
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-2 bg-[#0E0E0E] mt-9 mx-[-20px] rounded-b-xl">
             <div className="flex justify-between">
@@ -67,13 +67,13 @@ const BankCard = ({
                 className="text-12 font-semibold
                          text-[#FFFFFF9E] ml-4 mt-2"
               >
-                 ●●/●●
+                ●●/●●
               </h1>
               <h2
                 className="text-12 font-normal
                           text-white tracking-[1.1px] mr-1 mt-2"
               >
-              ●●●● ●●●● ●●●● <span >1234</span>
+                ●●●● ●●●● ●●●● <span>1234</span>
               </h2>
             </div>
             <p
@@ -82,13 +82,8 @@ const BankCard = ({
             >
               {userName}
             </p>
-            
-            
           </div>
         </div>
-
-       
-       
       </Link>
       {showBalance && <Copy title={account?.shareableId} />}
     </div>
